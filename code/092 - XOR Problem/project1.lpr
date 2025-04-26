@@ -1,22 +1,16 @@
-program project1;
+Program project1;
 
-{$mode objfpc}{$H+}
+{$MODE objfpc}{$H+}
 
-uses
-  {$IFDEF UNIX}{$IFDEF UseCThreads}
+Uses
+{$IFDEF UNIX}{$IFDEF UseCThreads}
   cthreads,
-  {$ENDIF}{$ENDIF}
+{$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, Unit1, uperceptron, upoint, ushared, unn, unnMath
-  { you can add units after this };
+  Forms, Unit1, uneuralnetwork;
 
-{$R *.res}
-
-begin
-  RequireDerivedFormResource:=True;
-  Application.Scaled:=True;
+Begin
   Application.Initialize;
   Application.CreateForm(TForm1, Form1);
   Application.Run;
-end.
-
+End.
