@@ -1,15 +1,15 @@
 object Form1: TForm1
   Left = 235
-  Height = 622
+  Height = 666
   Top = 113
   Width = 709
   Caption = 'Form1'
   Menu = MainMenu1
+  Position = poScreenCenter
+  LCLVersion = '4.99.0.0'
   OnCreate = FormCreate
   OnMouseDown = FormMouseDown
   OnPaint = FormPaint
-  Position = poScreenCenter
-  LCLVersion = '2.1.0.0'
   object MainMenu1: TMainMenu
     Left = 32
     Top = 16
