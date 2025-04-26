@@ -1,0 +1,69 @@
+object Form1: TForm1
+  Left = 235
+  Height = 622
+  Top = 113
+  Width = 709
+  Caption = 'Form1'
+  Menu = MainMenu1
+  OnCreate = FormCreate
+  OnMouseDown = FormMouseDown
+  OnPaint = FormPaint
+  Position = poScreenCenter
+  LCLVersion = '2.1.0.0'
+  object MainMenu1: TMainMenu
+    Left = 32
+    Top = 16
+    object MenuItem1: TMenuItem
+      Caption = 'File'
+      object MenuItem6: TMenuItem
+        Caption = 'New'
+        object MenuItem7: TMenuItem
+          Caption = 'Human first'
+          OnClick = MenuItem7Click
+        end
+        object MenuItem8: TMenuItem
+          Caption = 'Ai first'
+          OnClick = MenuItem8Click
+        end
+      end
+      object MenuItem9: TMenuItem
+        Caption = 'Close'
+        OnClick = MenuItem9Click
+      end
+    end
+    object MenuItem2: TMenuItem
+      Caption = 'Settings'
+      object MenuItem3: TMenuItem
+        Caption = 'AI'
+        object MenuItem4: TMenuItem
+          Caption = 'Weak'
+          GroupIndex = 1
+          RadioItem = True
+          OnClick = MenuItem4Click
+        end
+        object MenuItem5: TMenuItem
+          Caption = 'Strong'
+          GroupIndex = 1
+          RadioItem = True
+          OnClick = MenuItem5Click
+        end
+      end
+    end
+    object MenuItem10: TMenuItem
+      Caption = 'Style'
+      object MenuItem11: TMenuItem
+        Caption = 'Colors'
+        Checked = True
+        GroupIndex = 2
+        RadioItem = True
+        OnClick = MenuItem11Click
+      end
+      object MenuItem12: TMenuItem
+        Caption = 'Dot / Cross'
+        GroupIndex = 2
+        RadioItem = True
+        OnClick = MenuItem12Click
+      end
+    end
+  end
+end
