@@ -1,0 +1,73 @@
+object Form1: TForm1
+  Left = 256
+  Height = 301
+  Top = 133
+  Width = 837
+  Caption = 'Form1'
+  ClientHeight = 301
+  ClientWidth = 837
+  OnCreate = FormCreate
+  LCLVersion = '2.0.8.0'
+  object Button1: TButton
+    Left = 8
+    Height = 25
+    Top = 8
+    Width = 75
+    Caption = '10.2'
+    OnClick = Button1Click
+    TabOrder = 0
+  end
+  object PaintBox1: TPaintBox
+    Left = 88
+    Height = 200
+    Top = 8
+    Width = 200
+  end
+  object Label1: TLabel
+    Left = 8
+    Height = 15
+    Top = 40
+    Width = 34
+    Caption = 'Label1'
+    ParentColor = False
+  end
+  object Button2: TButton
+    Left = 8
+    Height = 25
+    Top = 64
+    Width = 75
+    Caption = '10.3'
+    OnClick = Button2Click
+    TabOrder = 1
+  end
+  object Button3: TButton
+    Left = 8
+    Height = 25
+    Top = 120
+    Width = 75
+    Caption = '10.5'
+    OnClick = Button3Click
+    TabOrder = 2
+  end
+  object Memo1: TMemo
+    Left = 304
+    Height = 288
+    Top = 8
+    Width = 528
+    Font.Name = 'Courier New'
+    Lines.Strings = (
+      'Memo1'
+    )
+    ParentFont = False
+    TabOrder = 3
+  end
+  object Button4: TButton
+    Left = 8
+    Height = 25
+    Top = 168
+    Width = 75
+    Caption = '10.13'
+    OnClick = Button4Click
+    TabOrder = 4
+  end
+end
