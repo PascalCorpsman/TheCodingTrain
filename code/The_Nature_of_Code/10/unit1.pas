@@ -183,7 +183,7 @@ End;
 Procedure TForm1.Button4Click(Sender: TObject);
 Var
   nn: TNeuralNetwork;
-  r, v: TVector;
+  r,v: TVector;
 Begin
   // 10.13
   nn := TNeuralNetwork.Create([2, 2, 1]);

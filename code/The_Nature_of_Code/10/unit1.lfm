@@ -1,21 +1,21 @@
 object Form1: TForm1
-  Left = 323
+  Left = 256
   Height = 301
-  Top = 107
+  Top = 133
   Width = 837
   Caption = 'Form1'
   ClientHeight = 301
   ClientWidth = 837
-  LCLVersion = '4.99.0.0'
   OnCreate = FormCreate
+  LCLVersion = '2.0.8.0'
   object Button1: TButton
     Left = 8
     Height = 25
     Top = 8
     Width = 75
     Caption = '10.2'
-    TabOrder = 0
     OnClick = Button1Click
+    TabOrder = 0
   end
   object PaintBox1: TPaintBox
     Left = 88
@@ -25,9 +25,9 @@ object Form1: TForm1
   end
   object Label1: TLabel
     Left = 8
-    Height = 16
+    Height = 15
     Top = 40
-    Width = 41
+    Width = 34
     Caption = 'Label1'
     ParentColor = False
   end
@@ -37,8 +37,8 @@ object Form1: TForm1
     Top = 64
     Width = 75
     Caption = '10.3'
-    TabOrder = 1
     OnClick = Button2Click
+    TabOrder = 1
   end
   object Button3: TButton
     Left = 8
@@ -46,8 +46,8 @@ object Form1: TForm1
     Top = 120
     Width = 75
     Caption = '10.5'
-    TabOrder = 2
     OnClick = Button3Click
+    TabOrder = 2
   end
   object Memo1: TMemo
     Left = 304
@@ -67,7 +67,7 @@ object Form1: TForm1
     Top = 168
     Width = 75
     Caption = '10.13'
-    TabOrder = 4
     OnClick = Button4Click
+    TabOrder = 4
   end
 end
