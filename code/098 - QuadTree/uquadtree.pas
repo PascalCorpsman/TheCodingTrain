@@ -2,6 +2,7 @@ Unit uquadtree;
 
 {$MODE ObjFPC}{$H+}
 {$MODESWITCH ADVANCEDRECORDS}
+{$MODESWITCH TypeHelpers}
 
 Interface
 
@@ -10,13 +11,19 @@ Uses
 
 Type
 
+  TPointArray = Array Of TPoint;
+
   (*
    * x,y = Mittelpunkt
    * w,h = Ausbreitung vom Mittelpunkt
    *)
+
+  { TQuadRect }
+
   TQuadRect = Record
     x, y, w, h: Single;
 Function Contains(aPoint: TPoint): Boolean;
+Function Intersects(Const aRange: TQuadRect): Boolean;
   End;
 
   { TQuadTree }
@@ -38,11 +45,20 @@ Function Contains(aPoint: TPoint): Boolean;
     Destructor Destroy(); override;
     Function Insert(aPoint: TPoint): Boolean;
     Procedure Show(Const aCanvas: TCanvas);
+    Function Query(aRange: TRect): TPointArray;
   End;
 
 Implementation
 
 Uses math;
+
+Operator := (aRect: TRect): TQuadRect;
+Begin
+  Result.x := (aRect.left + aRect.Right) / 2;
+  Result.y := (aRect.Top + aRect.Bottom) / 2;
+  Result.w := (max(aRect.Right, aRect.left) - min(aRect.Right, aRect.Left)) / 2;
+  Result.h := (max(aRect.Bottom, aRect.top) - min(aRect.Bottom, aRect.Top)) / 2;
+End;
 
 Function TQuadRect.Contains(aPoint: TPoint): Boolean;
 Begin
@@ -53,6 +69,16 @@ Begin
     (aPoint.Y <= self.y + self.h);
 End;
 
+Function TQuadRect.Intersects(Const aRange: TQuadRect): Boolean;
+Begin
+  result := Not (
+    (aRange.x - aRange.w > self.x + Self.w) Or
+    (aRange.x + aRange.w < self.x - Self.w) Or
+    (aRange.y - aRange.h > self.y + Self.h) Or
+    (aRange.y + aRange.h < self.y - Self.h)
+    );
+End;
+
 Function QuadRect(x, y, w, h: Single): TQuadRect;
 Begin
   result.x := x;
@@ -61,17 +87,33 @@ Begin
   result.h := h;
 End;
 
+Type
+
+  { TPointArrayHelper }
+
+  TPointArrayHelper = Type Helper For TPointArray
+    Procedure Concat(Const aData: TPointArray);
+  End;
+
+  { TPointArrayHelper }
+
+Procedure TPointArrayHelper.Concat(Const aData: TPointArray);
+Var
+  len, i: integer;
+Begin
+  If Not assigned(adata) Then exit;
+  len := length(self);
+  setlength(self, len + length(aData));
+  For i := 0 To high(aData) Do Begin
+    self[i + len] := aData[i];
+  End;
+End;
+
 { TQuadTree }
 
 Constructor TQuadTree.Create(aBoundary: TRect; aCapacity: integer);
 Begin
-  (*
-   * Umrechnen Trect nach TQuadRect
-   *)
-  fboundary.x := (aBoundary.left + aBoundary.Right) / 2;
-  fboundary.y := (aBoundary.Top + aBoundary.Bottom) / 2;
-  fboundary.w := (max(aBoundary.Right, aBoundary.left) - min(aBoundary.Right, aBoundary.Left)) / 2;
-  fboundary.h := (max(aBoundary.Bottom, aBoundary.top) - min(aBoundary.Bottom, aBoundary.Top)) / 2;
+  fboundary := aBoundary;
   fCapacity := aCapacity;
   fPoints := Nil;
   fNorthWest := Nil;
@@ -79,7 +121,6 @@ Begin
   fSouthWest := Nil;
   fSouthEast := Nil;
   fdivided := false;
-
 End;
 
 Constructor TQuadTree.Create(aBoundary: TQuadRect; aCapacity: integer);
@@ -94,7 +135,7 @@ Begin
   fdivided := false;
 End;
 
-Destructor TQuadTree.Destroy();
+Destructor TQuadTree.Destroy;
 Begin
   If fdivided Then Begin
     fNorthWest.free;
@@ -148,7 +189,7 @@ End;
 
 Procedure TQuadTree.Show(Const aCanvas: TCanvas);
 Const
-  Stroke = 2;
+  Stroke = 1;
 
   Procedure Point(x, y: integer);
   Begin
@@ -178,7 +219,28 @@ Begin
   For i := 0 To high(fPoints) Do Begin
     Point(fPoints[i].x, fPoints[i].y);
   End;
+End;
 
+Function TQuadTree.Query(aRange: TRect): TPointArray;
+Var
+  tmp: TQuadRect;
+  i: Integer;
+Begin
+  result := Nil;
+  tmp := aRange;
+  If Not fboundary.Intersects(tmp) Then exit;
+  For i := 0 To high(fPoints) Do Begin
+    If tmp.Contains(fPoints[i]) Then Begin
+      setlength(result, high(result) + 2);
+      result[high(result)] := fPoints[i];
+    End;
+  End;
+  If fdivided Then Begin
+    result.Concat(fNorthWest.Query(aRange));
+    result.Concat(fNorthEast.Query(aRange));
+    result.Concat(fSouthWest.Query(aRange));
+    result.Concat(fSouthEast.Query(aRange));
+  End;
 End;
 
 End.

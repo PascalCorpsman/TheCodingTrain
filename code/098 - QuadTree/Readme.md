@@ -7,6 +7,6 @@ The challange is split up into 3 videos
 - [Part2](https://www.youtube.com/watch?v=QQx_NmCIuCY)
 - [Part3](https://www.youtube.com/watch?v=z0YFFg_nBjw)
 
-> atm only part 1 is implemented
+> atm only part 1 ans 2 are implemented
 
 ![](preview.png)
