@@ -7,24 +7,9 @@ Unit uquadtree;
 Interface
 
 Uses
-  Classes, SysUtils, Graphics;
+  Classes, SysUtils, Graphics, uquadtree_common;
 
 Type
-
-  TPointArray = Array Of TPoint;
-
-  (*
-   * x,y = Mittelpunkt
-   * w,h = Ausbreitung vom Mittelpunkt
-   *)
-
-  { TQuadRect }
-
-  TQuadRect = Record
-    x, y, w, h: Single;
-Function Contains(aPoint: TPoint): Boolean;
-Function Intersects(Const aRange: TQuadRect): Boolean;
-  End;
 
   { TQuadTree }
 
@@ -33,7 +18,7 @@ Function Intersects(Const aRange: TQuadRect): Boolean;
     fdivided: Boolean;
     fboundary: TQuadRect;
     fCapacity: integer;
-    fPoints: Array Of TPoint;
+    fPoints: Array Of TQuadTreePoint;
     fNorthWest: TQuadTree;
     fNorthEast: TQuadTree;
     fSouthWest: TQuadTree;
@@ -45,59 +30,24 @@ Function Intersects(Const aRange: TQuadRect): Boolean;
     Destructor Destroy(); override;
     Function Insert(aPoint: TPoint): Boolean;
     Procedure Show(Const aCanvas: TCanvas);
-    Function Query(aRange: TRect): TPointArray;
+    Function Query(aRange: TRect): TQuadTreePointArray;
   End;
 
 Implementation
 
 Uses math;
 
-Operator := (aRect: TRect): TQuadRect;
-Begin
-  Result.x := (aRect.left + aRect.Right) / 2;
-  Result.y := (aRect.Top + aRect.Bottom) / 2;
-  Result.w := (max(aRect.Right, aRect.left) - min(aRect.Right, aRect.Left)) / 2;
-  Result.h := (max(aRect.Bottom, aRect.top) - min(aRect.Bottom, aRect.Top)) / 2;
-End;
-
-Function TQuadRect.Contains(aPoint: TPoint): Boolean;
-Begin
-  result :=
-    (aPoint.X >= self.x - self.w) And
-    (aPoint.X <= self.x + self.w) And
-    (aPoint.Y >= self.y - self.h) And
-    (aPoint.Y <= self.y + self.h);
-End;
-
-Function TQuadRect.Intersects(Const aRange: TQuadRect): Boolean;
-Begin
-  result := Not (
-    (aRange.x - aRange.w > self.x + Self.w) Or
-    (aRange.x + aRange.w < self.x - Self.w) Or
-    (aRange.y - aRange.h > self.y + Self.h) Or
-    (aRange.y + aRange.h < self.y - Self.h)
-    );
-End;
-
-Function QuadRect(x, y, w, h: Single): TQuadRect;
-Begin
-  result.x := x;
-  result.y := y;
-  result.w := w;
-  result.h := h;
-End;
-
 Type
 
   { TPointArrayHelper }
 
-  TPointArrayHelper = Type Helper For TPointArray
-    Procedure Concat(Const aData: TPointArray);
+  TQuadTreePointArrayHelper = Type Helper For TQuadTreePointArray
+    Procedure Concat(Const aData: TQuadTreePointArray);
   End;
 
   { TPointArrayHelper }
 
-Procedure TPointArrayHelper.Concat(Const aData: TPointArray);
+Procedure TQuadTreePointArrayHelper.Concat(Const aData: TQuadTreePointArray);
 Var
   len, i: integer;
 Begin
@@ -191,9 +141,9 @@ Procedure TQuadTree.Show(Const aCanvas: TCanvas);
 Const
   Stroke = 1;
 
-  Procedure Point(x, y: integer);
+  Procedure Point(x, y: single);
   Begin
-    aCanvas.Ellipse(x - Stroke, y - Stroke, x + Stroke, y + Stroke);
+    aCanvas.Ellipse(round(x) - Stroke, round(y) - Stroke, round(x) + Stroke, round(y) + Stroke);
   End;
 
 Var
@@ -221,7 +171,7 @@ Begin
   End;
 End;
 
-Function TQuadTree.Query(aRange: TRect): TPointArray;
+Function TQuadTree.Query(aRange: TRect): TQuadTreePointArray;
 Var
   tmp: TQuadRect;
   i: Integer;

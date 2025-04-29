@@ -6,7 +6,7 @@ Interface
 
 Uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-  uquadtree;
+  uquadtree, uquadtree_common;
 
 Type
 
@@ -32,7 +32,7 @@ Type
     mdown: Boolean;
     m1down: TPoint;
     m2down: TPoint;
-    pts: TPointArray;
+    pts: TQuadTreePointArray;
   public
 
   End;
@@ -175,9 +175,9 @@ Const
 Var
   i: Integer;
 
-  Procedure Point(x, y: integer);
+  Procedure Point(x, y: single);
   Begin
-    PaintBox1.Canvas.Ellipse(x - Stroke, y - Stroke, x + Stroke, y + Stroke);
+    PaintBox1.Canvas.Ellipse(round(x) - Stroke, round(y) - Stroke, round(x) + Stroke, round(y) + Stroke);
   End;
 
 Begin
