@@ -9,8 +9,13 @@ Uses
 
 Type
 
+  TCircle = Record
+    x, y, r: Single;
+  End;
+
   TQuadTreePoint = Record
     x, y: Single;
+    UserData: Pointer;
   End;
 
   TQuadTreePointArray = Array Of TQuadTreePoint;
@@ -48,6 +53,7 @@ Operator := (aPoint: TPoint): TQuadTreePoint;
 Begin
   result.x := aPoint.X;
   result.y := aPoint.Y;
+  result.UserData := Nil;
 End;
 
 Function TQuadRect.Contains(aPoint: TQuadTreePoint): Boolean;

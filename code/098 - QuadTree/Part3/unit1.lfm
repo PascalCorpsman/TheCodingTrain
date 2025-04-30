@@ -1,0 +1,20 @@
+object Form1: TForm1
+  Left = 328
+  Height = 426
+  Top = 113
+  Width = 623
+  Caption = 'Form1'
+  ClientHeight = 426
+  ClientWidth = 623
+  LCLVersion = '4.99.0.0'
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  object PaintBox1: TPaintBox
+    Left = 8
+    Height = 400
+    Top = 8
+    Width = 600
+    OnPaint = PaintBox1Paint
+  end
+end

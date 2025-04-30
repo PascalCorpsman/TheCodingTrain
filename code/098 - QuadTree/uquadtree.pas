@@ -28,14 +28,16 @@ Type
     Constructor Create(aBoundary: TRect; aCapacity: integer); overload; virtual;
     Constructor Create(aBoundary: TQuadRect; aCapacity: integer); overload; virtual;
     Destructor Destroy(); override;
-    Function Insert(aPoint: TPoint): Boolean;
+
+    Procedure Clear();
+
+    Function Insert(aPoint: TQuadTreePoint): Boolean;
     Procedure Show(Const aCanvas: TCanvas);
-    Function Query(aRange: TRect): TQuadTreePointArray;
+    Function Query(aRange: TRect): TQuadTreePointArray; overload;
+    Function Query(aRange: TCircle): TQuadTreePointArray; overload;
   End;
 
 Implementation
-
-Uses math;
 
 Type
 
@@ -87,6 +89,12 @@ End;
 
 Destructor TQuadTree.Destroy;
 Begin
+  Clear;
+  Inherited Destroy();
+End;
+
+Procedure TQuadTree.Clear;
+Begin
   If fdivided Then Begin
     fNorthWest.free;
     fNorthEast.free;
@@ -94,7 +102,11 @@ Begin
     fSouthEast.free;
   End;
   fdivided := false;
-  Inherited Destroy();
+  fNorthWest := Nil;
+  fNorthEast := Nil;
+  fSouthWest := Nil;
+  fSouthEast := Nil;
+  SetLength(fPoints, 0);
 End;
 
 Procedure TQuadTree.Subdivide;
@@ -113,7 +125,7 @@ Begin
   fdivided := true;
 End;
 
-Function TQuadTree.Insert(aPoint: TPoint): Boolean;
+Function TQuadTree.Insert(aPoint: TQuadTreePoint): Boolean;
 Begin
   result := false;
   If Not fboundary.Contains(aPoint) Then exit;
@@ -191,6 +203,18 @@ Begin
     result.Concat(fSouthWest.Query(aRange));
     result.Concat(fSouthEast.Query(aRange));
   End;
+End;
+
+Function TQuadTree.Query(aRange: TCircle): TQuadTreePointArray;
+Var
+  r: TRect;
+Begin
+  r.Left := round(aRange.x - aRange.r);
+  r.Top := round(aRange.y - aRange.r);
+  r.Right := round(aRange.x + aRange.r);
+  r.Bottom := round(aRange.y + aRange.r);
+  // TODO: implement a real circle test instead of a rectangle one ?
+  result := Query(r);
 End;
 
 End.
