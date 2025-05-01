@@ -9,4 +9,11 @@ The challange is split up into 3 videos
 
 ![](preview.png)
 
+In Part 3 Daniel is proofing the efficiency of the implementation, by calculating collissions between "particles".
+Use the
+
+> {.$DEFINE QuadTreeVersion}
+
+switch to test the version with and without the quadtree.
+
 ![](preview3.png)
