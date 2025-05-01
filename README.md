@@ -2,7 +2,7 @@
 
 I am deeply inspired by [The Coding Train](https://www.youtube.com/c/TheCodingTrain) YouTube channel and its [website](https://thecodingtrain.com/). 
 
-Danial Shiffman creates wonderful YouTube videos that are both educational and inspiring; he is truly a role model.
+Daniel Shiffman creates wonderful YouTube videos that are both educational and inspiring; he is truly a role model.
 
 To honor this, I put together this GitHub repository with FPC ports inspired by the videos I’ve watched so far, built upon with my own experience.
 
