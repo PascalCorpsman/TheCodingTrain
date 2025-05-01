@@ -1,6 +1,6 @@
 # 142 - Rubik's Cube
 
-Dan implements a rubic cube renderer that is able to rotate the rubic cube on the screen
+Daniel implements a rubic cube renderer that is able to rotate the rubic cube on the screen
 
 The challange is split up into 3 videos
 - [Part1](https://www.youtube.com/watch?v=9PGfL4t-uqE)

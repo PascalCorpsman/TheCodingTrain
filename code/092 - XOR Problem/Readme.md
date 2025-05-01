@@ -1,6 +1,6 @@
 # 92 - XOR Problem
 
-In his book [The nature of Code](https://natureofcode.com/) Dan developes a neural network engine in chapter 10. You can watch the series [here](https://www.youtube.com/playlist?list=PLRqwX-V7Uu6aCibgK1PTWWu9by6XFdCfh).
+In his book [The nature of Code](https://natureofcode.com/) Daniel developes a neural network engine in chapter 10. You can watch the series [here](https://www.youtube.com/playlist?list=PLRqwX-V7Uu6aCibgK1PTWWu9by6XFdCfh).
 
 In this [video](https://www.youtube.com/watch?app=desktop&v=188B6k_F9jU&t=0s) he is testing wheather the network is able to "learn" the XOR function.
 
