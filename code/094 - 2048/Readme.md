@@ -2,7 +2,12 @@
 
 In this video Daniel implements the famous 2048 game.
 
-Here are the links to the videos [Part1](https://www.youtube.com/watch?v=JSn-DJU8qf0) and [Part2](https://www.youtube.com/watch?v=8f8P1i0W26E)
+Here are the links to the videos:
+
+- [Part1](https://www.youtube.com/watch?v=JSn-DJU8qf0)
+- [Part2](https://www.youtube.com/watch?v=8f8P1i0W26E)
+- [Part3](https://www.youtube.com/watch?v=3iYvT8TBIro)
+- [Part4](https://www.youtube.com/watch?v=vtMKeEGpMI4)
 
 ![](preview.png)
 
