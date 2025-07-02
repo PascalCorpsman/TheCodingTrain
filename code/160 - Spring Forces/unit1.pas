@@ -1,3 +1,17 @@
+(******************************************************************************)
+(*                                                                            *)
+(* Author      : Uwe Schächterle (Corpsman)                                   *)
+(*                                                                            *)
+(* This file is part of repo "TheCodingTrain"                                 *)
+(*                                                                            *)
+(*  See the file license.md, located under:                                   *)
+(*  https://github.com/PascalCorpsman/Software_Licenses/blob/main/license.md  *)
+(*  for details about the license.                                            *)
+(*                                                                            *)
+(*               It is not allowed to change or remove this text from any     *)
+(*               source file of the project.                                  *)
+(*                                                                            *)
+(******************************************************************************)
 Unit Unit1;
 
 {$MODE objfpc}{$H+}
@@ -60,6 +74,10 @@ Var
   i: Integer;
   a, b: TParticle;
 Begin
+  (*
+   * History: 0.01 - Initialversion
+   *          0.02 - Fix Memleak, Fix for Windows
+   *)
   Closing := false;
   FrameRateCounterTime := GetTickCount64;
   FrameRateCounter := 0;
@@ -86,6 +104,10 @@ Var
 Begin
   For i := 0 To high(particles) Do
     particles[i].Free;
+  setlength(particles, 0);
+  For i := 0 To high(Springs) Do
+    Springs[i].Free;
+  setlength(Springs, 0);
 End;
 
 Procedure TForm1.FormMouseDown(Sender: TObject; Button: TMouseButton;
@@ -119,6 +141,7 @@ Var
   tail: TParticle;
   a: Array Of TPoint;
 Begin
+  If Not assigned(particles) Then exit;
   // Draw
   canvas.Brush.Color := RGBToColor(112, 50, 126);
   canvas.Brush.Style := bsSolid;
@@ -143,7 +166,11 @@ Begin
   a[high(a)] := point(round(particles[high(particles)].position.x), round(particles[high(particles)].position.y));
   Canvas.Pen.Color := clWhite;
   Canvas.Pen.Width := 8;
+{$IFDEF Windows}
+  Canvas.PolyBezier(a, false, false);
+{$ELSE}
   Canvas.PolyBezier(a, false, true);
+{$ENDIF}
   // End draw as bezier
 
   tail := particles[high(particles)];
