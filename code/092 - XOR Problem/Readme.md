@@ -14,5 +14,6 @@ To be able to compile this example you need to download:
 - [dglOpenGL.pas](https://github.com/SaschaWillems/dglOpenGL/blob/master/dglOpenGL.pas)
 - [uopengl_ascii_font.pas](https://github.com/PascalCorpsman/Examples/blob/master/OpenGL/uopengl_ascii_font.pas)
 - [uopengl_ascii_font.ressource](https://github.com/PascalCorpsman/Examples/blob/master/OpenGL/uopengl_ascii_font.ressource)
+- [uopengl_font_common.pas](https://github.com/PascalCorpsman/Examples/blob/master/OpenGL/uopengl_font_common.pas)
 - install LazOpenGLControl into the Lazarus IDE
 
