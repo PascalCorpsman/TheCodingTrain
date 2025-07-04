@@ -1,0 +1,27 @@
+object Form1: TForm1
+  Left = 331
+  Height = 420
+  Top = 116
+  Width = 538
+  Caption = 'Form1'
+  ClientHeight = 420
+  ClientWidth = 538
+  Position = poScreenCenter
+  LCLVersion = '4.99.0.0'
+  OnCreate = FormCreate
+  object PaintBox1: TPaintBox
+    Left = 8
+    Height = 400
+    Top = 8
+    Width = 400
+    OnMouseUp = PaintBox1MouseUp
+    OnPaint = PaintBox1Paint
+  end
+  object Label1: TLabel
+    Left = 416
+    Height = 16
+    Top = 8
+    Width = 112
+    Caption = 'Press left to reveal'
+  end
+end
