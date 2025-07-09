@@ -48,6 +48,9 @@ Type
 Var
   Form1: TForm1;
 
+  MouseIsPressed: Boolean;
+  mouseX, MouseY: integer;
+
   (*
    * Functions to directly emulate NodeJS ;)
    *)

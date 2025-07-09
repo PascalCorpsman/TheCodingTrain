@@ -24,10 +24,6 @@ Uses
 Procedure setup();
 Procedure Draw();
 
-Var
-  MouseIsPressed: Boolean;
-  mouseX, MouseY: integer;
-
 Implementation
 
 Uses Unit1;
@@ -80,10 +76,14 @@ Procedure Draw();
 Begin
   fill(255);
   stroke(255);
-  While step <= totalsteps Do Begin
+  While step <= totalsteps Do Begin // Uncomment Loop if you want to see the animation
     If (isPrime(step)) Then Begin
-      circle(x, y, stepsize Div 2);
-      //      Point(x, y);
+      If stepsize > 2 Then Begin
+        circle(x, y, stepsize Div 2);
+      End
+      Else Begin
+        Point(x, y);
+      End;
     End;
     line(x, y, px, py);
     px := x;

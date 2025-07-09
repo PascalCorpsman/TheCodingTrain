@@ -59,6 +59,7 @@ Begin
   (*
    * History: 0.01 - Initialversion
    *)
+  // TODO: Add "markers / Flags"
   caption := 'Minesweeper ver. 0.01';
   Randomize;
   grid := Nil;
