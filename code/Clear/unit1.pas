@@ -45,6 +45,8 @@ Type
 
   TLayout = (LEFT, CENTER, RIGHT);
 
+  TShape = (POINTS, LINES, TRIANGLES, TRIANGLE_FAN, TRIANGLE_STRIP, QUADS, QUAD_STRIP, TESS);
+
 Var
   Form1: TForm1;
 
@@ -55,22 +57,29 @@ Var
    * Functions to directly emulate NodeJS ;)
    *)
 Procedure Background(aColor: TColor);
+Procedure BeginShape(aShape: TShape = TESS);
 Procedure Circle(x, y, dim: integer);
 Procedure CreateCanvas(aWidth, aHeight: Integer);
+Procedure EndShape(); // TODO: Optionaler Parameter fehlt noch ( https://p5js.org/reference/p5/endShape/ )
 Procedure Fill(aValue: Byte);
+Procedure FrameRate(aFrameRate: Integer);
 Function Height: integer;
 Procedure Line(x1, y1, x2, y2: integer);
+Procedure noFill;
 Procedure noLoop;
-Procedure Point(x, y: integer);
+Procedure Point(x, y: Single);
 Procedure rectMode(aMode: TLayout);
-Procedure square(x, y, dim: integer);
+Procedure Square(x, y, dim: integer);
 Procedure Stroke(aValue: Byte);
+Procedure Stroke(R, G, B: Byte);
+Procedure StrokeWeight(aValue: integer);
 Procedure TextSize(aSize: integer);
 Procedure TextAlign(aHorizontal, aVertical: TLayout);
 Procedure Text(aValue, X, Y: integer); overload;
 Procedure Text(aValue: String; X, Y: integer); overload;
+Procedure Triangle(x1, y1, x2, y2, x3, y3: Single);
+Procedure Vertex(x, y: Single);
 Function Width: integer;
-Procedure FrameRate(aFrameRate: Integer);
 
 Implementation
 
@@ -85,6 +94,8 @@ Var
   TextVertAlignment: TLayout;
   rectDrawMode: TLayout;
   NoLoopCalled: Boolean = false;
+  ShapePoints: Array Of TPoint = Nil;
+  Shape: TShape = TESS;
 
 Procedure Circle(x, y, dim: integer);
 Begin
@@ -99,6 +110,15 @@ Begin
   VirtualCanvas.Height := aHeight;
   form1.Width := aWidth;
   form1.Height := aHeight;
+  form1.Constraints.MinWidth := aWidth;
+  form1.Constraints.MaxWidth := aWidth;
+  form1.Constraints.MinHeight := aHeight;
+  form1.Constraints.MaxHeight := aHeight;
+End;
+
+Procedure StrokeWeight(aValue: integer);
+Begin
+  VirtualCanvas.Canvas.Pen.Width := aValue;
 End;
 
 Procedure TextSize(aSize: integer);
@@ -112,13 +132,39 @@ Begin
   TextVertAlignment := aVertical;
 End;
 
+Procedure BeginShape(aShape: TShape);
+Begin
+  setlength(ShapePoints, 0);
+  Shape := aShape;
+End;
+
+Procedure Vertex(x, y: Single);
+Begin
+  setlength(ShapePoints, high(ShapePoints) + 2);
+  ShapePoints[high(ShapePoints)] := classes.point(round(x), round(y));
+End;
+
+Procedure EndShape;
+Begin
+  Case shape Of
+    TESS: Begin
+        VirtualCanvas.Canvas.Polygon(ShapePoints);
+      End;
+  End;
+End;
+
 Procedure Fill(aValue: Byte);
 Begin
   VirtualCanvas.canvas.Font.color := aValue + (aValue Shl 8) + (aValue Shl 16);
   VirtualCanvas.canvas.Brush.Color := aValue + (aValue Shl 8) + (aValue Shl 16);
 End;
 
-Procedure square(x, y, dim: integer);
+Procedure noFill;
+Begin
+  VirtualCanvas.canvas.Brush.Style := bsClear;
+End;
+
+Procedure Square(x, y, dim: integer);
 Begin
   Case rectDrawMode Of
     LEFT: x := x - dim;
@@ -141,9 +187,26 @@ Begin
   NoLoopCalled := true;
 End;
 
-Procedure Point(x, y: integer);
+Procedure Point(x, y: Single);
+Var
+  pw: integer;
+  bc: TColor;
+  ax, ay: Integer;
 Begin
-  VirtualCanvas.canvas.pixels[x, y] := VirtualCanvas.canvas.Pen.Color;
+  ax := round(x);
+  ay := round(y);
+  If VirtualCanvas.canvas.Pen.Width = 1 Then Begin
+    VirtualCanvas.canvas.pixels[ax, ay] := VirtualCanvas.canvas.Pen.Color;
+  End
+  Else Begin
+    pw := VirtualCanvas.canvas.Pen.Width;
+    VirtualCanvas.canvas.Pen.Width := 1;
+    bc := VirtualCanvas.canvas.Brush.Color;
+    VirtualCanvas.canvas.Brush.Color := VirtualCanvas.canvas.Pen.Color;
+    VirtualCanvas.canvas.Ellipse(ax - pw Div 2, ay - pw Div 2, ax + pw Div 2, ay + pw Div 2);
+    VirtualCanvas.canvas.Brush.Color := bc;
+    VirtualCanvas.canvas.Pen.Width := pw;
+  End;
 End;
 
 Procedure rectMode(aMode: TLayout);
@@ -153,7 +216,12 @@ End;
 
 Procedure Stroke(aValue: Byte);
 Begin
-  VirtualCanvas.canvas.Pen.Color := aValue + (aValue Shl 8) + (aValue Shl 16);
+  Stroke(avalue, avalue, avalue);
+End;
+
+Procedure Stroke(R, G, B: Byte);
+Begin
+  VirtualCanvas.canvas.Pen.Color := r + (g Shl 8) + (b Shl 16);
 End;
 
 Procedure Text(aValue, X, Y: integer);
@@ -181,6 +249,16 @@ Begin
   VirtualCanvas.Canvas.TextOut(x, y, aValue);
 End;
 
+Procedure Triangle(x1, y1, x2, y2, x3, y3: Single);
+Var
+  pts: Array[0..2] Of TPoint;
+Begin
+  pts[0] := classes.point(round(x1), round(y1));
+  pts[1] := classes.point(round(x2), round(y2));
+  pts[2] := classes.point(round(x3), round(y3));
+  VirtualCanvas.Canvas.Polygon(pts);
+End;
+
 Function Width: integer;
 Begin
   result := form1.Height;
@@ -204,7 +282,7 @@ End;
 Procedure Background(aColor: TColor);
 Begin
   VirtualCanvas.canvas.Brush.Color := aColor;
-  VirtualCanvas.canvas.Rectangle(-1, -1, form1.Width + 1, form1.Height + 1);
+  VirtualCanvas.canvas.Rectangle(-VirtualCanvas.Canvas.Pen.Width, -VirtualCanvas.Canvas.Pen.Width, form1.Width + VirtualCanvas.Canvas.Pen.Width, form1.Height + VirtualCanvas.Canvas.Pen.Width);
 End;
 
 { TForm1 }
@@ -216,6 +294,7 @@ End;
 
 Procedure TForm1.FormCreate(Sender: TObject);
 Begin
+  Randomize;
   VirtualCanvas := TBitmap.Create;
   setup;
 End;
