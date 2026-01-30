@@ -35,7 +35,7 @@ Var
   Gloria: TNodeJsImage;
 
   (*
-   * Returns the index of the Voronoi Polygon that contains the coordinate i,j
+   * Returns the index of the Voronoi Polygon that contains the coordinate x, y
    *)
 
 Function delaunayfind(x, y: integer; i: integer = -1): Integer;
