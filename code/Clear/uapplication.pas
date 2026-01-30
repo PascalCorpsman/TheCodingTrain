@@ -24,13 +24,9 @@ Uses
 Procedure setup();
 Procedure Draw();
 
-Var
-  MouseIsPressed: Boolean;
-  mouseX, MouseY: integer;
-
 Implementation
 
-Uses Unit1;
+Uses uNodeJs;
 
 Procedure setup();
 Begin

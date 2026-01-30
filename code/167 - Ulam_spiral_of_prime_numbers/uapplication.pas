@@ -26,7 +26,7 @@ Procedure Draw();
 
 Implementation
 
-Uses Unit1;
+Uses uNodeJs;
 
 Const
   stepsize = 5;
@@ -58,7 +58,7 @@ Procedure setup();
 Var
   cols, rows: integer;
 Begin
-  form1.caption := 'Coding challenge 167';
+  Document.Title := 'Coding challenge 167';
   CreateCanvas(500, 500);
 
   cols := Width Div stepsize;

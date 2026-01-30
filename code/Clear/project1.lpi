@@ -41,6 +41,11 @@
         <Filename Value="uapplication.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
+      <Unit>
+        <Filename Value="unodejs.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uNodeJs"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
