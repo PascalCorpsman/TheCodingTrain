@@ -1,7 +1,7 @@
 # 181 - Weighted Voronoi Stippling
 
 
-In this [video](https://www.youtube.com/watch?v=Bxdt6T_1qgc) Daniel implements the a weighted voronoi stippling algorithm to render his dog gloria.
+In this [video](https://www.youtube.com/watch?v=Bxdt6T_1qgc) Daniel implements a weighted voronoi stippling algorithm to render his dog gloria.
 
 ![](preview.png)
 
